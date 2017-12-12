@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Dalton's Calculator</title>
+        <link rel="stylesheet" href="C:\Users\Dalton\Documents\Internship\styles.css">
+    </head>
+
+    <body>
+
+        <div class="grid-container">
+
+            <!-- Grid Row 1 -->
+            <div id="calculation-space">0</div>
+
+            <!-- Grid Row 2 -->
+            <div class="grid-item" id="clear">
+                <button type="button" class="operator-2" onclick="keyPress('clear')">AC</button>
+            </div>
+            <div class="grid-item" id="negative">
+                <button type="button" class="operator-2" onclick="keyPress('sign-switch')">-/+</button>
+            </div>
+            <div class="grid-item" id="square-root">
+                <button type="button" class="operator-2" onclick="keyPress('%')">%</button>
+            </div>
+            <div class="grid-item" id="divide">
+                <button type="button" class="operator" onclick="keyPress('/')">/</button>
+            </div>
+
+            <!-- Grid Row 3 -->
+            <div class="grid-item" id="seven">
+                <button type="button" class="numeral" value="7" onclick="keyPress('7')">7</button>
+            </div>
+            <div class="grid-item" id="eight">
+                <button type="button" class="numeral" value="8" onclick="keyPress('8')">8</button>
+            </div>
+            <div class="grid-item" id="nine">
+                <button type="button" class="numeral" value="9" onclick="keyPress('9');">9</button>
+            </div>
+            <div class="grid-item" id="multiply">
+                <button type="button" class="operator" onclick="keyPress('*')">*</button>
+            </div>
+
+            <!-- Grid Row 4 -->
+            <div class="grid-item" id="four">
+                <button type="button" class="numeral" value="4" onclick="keyPress('4')">4</button>
+            </div>
+            <div class="grid-item" id="five">
+                <button type="button" class="numeral" value="5" onclick="keyPress('5')">5</button>
+            </div>
+            <div class="grid-item" id="six">
+                <button type="button" class="numeral" value="6" onclick="keyPress('6')">6</button>
+            </div>
+            <div class="grid-item" id="subtract">
+                <button type="button" class="operator"  onclick="keyPress('-')">-</button>
+            </div>
+
+            <!-- Grid Row 5 -->
+            <div class="grid-item" id="one">
+                <button type="button" class="numeral" value="1" onclick="keyPress('1')">1</button>
+            </div>
+            <div class="grid-item" id="two">
+                <button type="button" class="numeral" value="2" onclick="keyPress('2')">2</button>
+            </div>
+            <div class="grid-item" id="three">
+                <button type="button" class="numeral" value="3" onclick="keyPress('3')">3</button>
+            </div>
+            <div class="grid-item" id="add">
+                <button type="button" class="operator" onclick="keyPress('+'); updateDisplay()">+</button>
+            </div>
+
+            <!-- Grid Row 6 -->
+            <div class="grid-item" id="zero">
+                <button type="button" class="numeral" value="0" onclick="keyPress(0); updateDisplay()">0</button>
+            </div>
+            <div class="grid-item" id="decimal" >
+                <button type="button" class="numeral" onclick="keyPress('.')">.</button>
+            </div>
+            <div class="grid-item" id="equals">
+                <button type="button" class="operator" onclick="keyPress('='); updateDisplay()">=</button>
+            </div>
+        </div>
+
+
+        <script src="C:\Users\Dalton\Documents\Internship\javascript.js"></script>
+    </body>
+</html>
