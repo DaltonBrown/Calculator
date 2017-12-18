@@ -9,7 +9,8 @@ var calculator = {
     operandOne: "",
     operandTwo: "",
     operator: "",
-    accumulator: ""
+    accumulator: "",
+    display: ""
 };
 
 /**
@@ -33,6 +34,39 @@ function updateDisplay(display) {
 }
 
 /**
+ * createDisplay()
+ * Creates a string to be displayed on the 
+ * @returns output: String to be passed to the display screen
+ */
+function createDisplay() {
+    var output = "";
+    // If neither operands nor operator is stored:
+    if (calculator.operandOne == "" && calculator.operator == "") {
+        // Only display accumulator.
+        output = calculator.accumulator;
+        return output;
+    }
+    // If operandOne and operator are stored:
+    if (calculator.operandOne != "" && calculator.operator != "") {
+        // If accumulator is blank, don't display it.
+        if (calculator.accumulator == "") {
+            output = calculator.operandOne + " " + calculator.operator;
+            return output;
+            // If accumulator isn't blank, display it.
+        } else {
+            output = calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator;
+            return output;
+        }
+    }
+    // If operandOne is stored, but operator isn't stored (after calculation):
+    if (calculator.operandOne != "" && calculator.operator == "") {
+        // Only display operandOne.
+        output = calculator.operandOne;
+        return output;
+    }
+}
+
+/**
  * keyPress()
  * Determines which key has been pressed.
  * @param {String} value: Key's value
@@ -50,67 +84,24 @@ function keyPress(value) {
                 if (value == "0") {
                     calculator.accumulator = "0";
                     // Update display.
-                    // If neither operands nor operator is stored:
-                    if (calculator.operandOne == "" && calculator.operator == "") {
-                        updateDisplay(calculator.accumulator);
-                    }
-                    // If operandOne and operator are stored:
-                    if (calculator.operandOne != "" && calculator.operator != "") {
-                        // If accumualator is blank, don't display it.
-                        if (calculator.accumulator == "") {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator);
-                            // If accumulator isn't zero, display it.
-                        } else {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                        }
-                    }
-                    // If operandOne is stored, but operator isn't stored (after calculation):
-                    if (calculator.operandOne != "" && calculator.operator == "") {
-                        updateDisplay(calculator.operandOne);
-                    }
+                    calculator.display = createDisplay();
+                    updateDisplay(calculator.display);
                     // If digit isn't zero, add digit.
                 } else {
                     calculator.accumulator = value;
                     // Update display.
-                    // If neither operands nor operator is stored:
-                    if (calculator.operandOne == "" && calculator.operator == "") {
-                        updateDisplay(calculator.accumulator);
-                    }
-                     // If operandOne and operator are stored:
-                    if (calculator.operandOne != "" && calculator.operator != "") {
-                        if (calculator.accumulator == "") {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator);
-                        } else {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                        }
-                    }
-                    // If operandOne is stored, but operator isn't stored (after calculation):
-                    if (calculator.operandOne != "" && calculator.operator == "") {
-                        updateDisplay(calculator.operandOne);
-                    }
+                    calculator.display = createDisplay();
+                    updateDisplay(calculator.createDisplay());
                 }
-                // If the accumulator isn't empty, append the digit.
+                // If the accumulator isn't empty, append the digit
             } else {
                 calculator.accumulator = calculator.accumulator + value;
                 // Update display.
-                // If neither operands nor operator is stored:
-                if (calculator.operandOne == "" && calculator.operator == "") {
-                    updateDisplay(calculator.accumulator);
-                }
-                 // If operandOne and operator are stored:
-                if (calculator.operandOne != "" && calculator.operator != "") {
-                    if (calculator.accumulator == "") {
-                        updateDisplay(calculator.operandOne + " " + calculator.operator);
-                    } else {
-                        updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                    }
-                }
-                // If operandOne is stored, but operator isn't stored (after calculation):
-                if (calculator.operandOne != "" && calculator.operator == "") {
-                    updateDisplay(calculator.operandOne);
-                }
+                calculator.display = createDisplay();
+                updateDisplay(calculator.display);
             }
         }
+
     } // End of if (digit).
 
     // If key pressed is a decimal point:
@@ -121,23 +112,8 @@ function keyPress(value) {
             // Leave accumulator the same (can't have two decimals).
             calculator.accumulator = calculator.accumulator;
             // Update display.
-            // If neither operands nor operator is stored:
-            if (calculator.operandOne == "" && calculator.operator == "") {
-                updateDisplay(calculator.accumulator);
-            }
-             // If operandOne and operator are stored:
-            if (calculator.operandOne != "" && calculator.operator != "") {
-                if (calculator.accumulator == "") {
-                    updateDisplay(calculator.operandOne + " " + calculator.operator);
-                } else {
-                    updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                }
-            }
-            
-            if (calculator.operandOne != "" && calculator.operator == "") {
-                updateDisplay(calculator.operandOne);
-            }
-            
+            calculator.display = createDisplay();
+            updateDisplay(calculator.display);
             // If accumulator doesn't contain a decimal:    
         } else {
             // If decimal is first button pressed:
@@ -150,22 +126,8 @@ function keyPress(value) {
                 calculator.accumulator = calculator.accumulator + ".";
             }
             // Update display.
-            // If neither operands nor operator is stored:
-            if (calculator.operandOne == "" && calculator.operator == "") {
-                updateDisplay(calculator.accumulator);
-            }
-             // If operandOne and operator are stored:
-            if (calculator.operandOne != "" && calculator.operator != "") {
-                if (calculator.accumulator == "") {
-                    updateDisplay(calculator.operandOne + " " + calculator.operator);
-                } else {
-                    updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                }
-            }
-            // If operandOne is stored, but operator isn't stored (after calculation):
-            if (calculator.operandOne != "" && calculator.operator == "") {
-                updateDisplay(calculator.operandOne);
-            }
+            calculator.display = createDisplay();
+            updateDisplay(calculator.display);
         }
     } // End of if (decimal).
 
@@ -180,23 +142,9 @@ function keyPress(value) {
                 // Leave the accumulator the same.
                 calculator.accumulator = calculator.accumulator;
                 // Update display.
-                // // If neither operands nor operator is stored:
-                if (calculator.operandOne == "" && calculator.operator == "") {
-                    updateDisplay(calculator.accumulator);
-                }
-                 // If operandOne and operator are stored:
-                if (calculator.operandOne != "" && calculator.operator != "") {
-                    if (calculator.accumulator == "") {
-                        updateDisplay(calculator.operandOne + " " + calculator.operator);
-                    } else {
-                        updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                    }
-                }
-                // If operandOne is stored, but operator isn't stored (after calculation):
-                if (calculator.operandOne != "" && calculator.operator == "") {
-                    updateDisplay(calculator.operandOne);
-                }
-            // Is accumualtor empty? --> No
+                calculator.display = createDisplay();
+                updateDisplay(calculator.display);
+                // Is accumualtor empty? --> No
             } else {
                 // If accumaltor evaluates to any form of zero, store 0 in operandOne.
                 if (Number(calculator.accumulator) == 0) {
@@ -210,22 +158,8 @@ function keyPress(value) {
                 // Reset accumulator.
                 calculator.accumulator = "";
                 // Update display.
-                // If neither operands nor operator is stored:
-                if (calculator.operandOne == "" && calculator.operator == "") {
-                    updateDisplay(calculator.accumulator);
-                }
-                 // If operandOne and operator are stored:
-                if (calculator.operandOne != "" && calculator.operator != "") {
-                    if (calculator.accumulator == "") {
-                        updateDisplay(calculator.operandOne + " " + calculator.operator);
-                    } else {
-                        updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                    }
-                }
-                // If operandOne is stored, but operator isn't stored (after calculation):
-                if (calculator.operandOne != "" && calculator.operator == "") {
-                    updateDisplay(calculator.operandOne);
-                }
+                calculator.display = createDisplay();
+                updateDisplay(calculator.display);
             }
         }
 
@@ -240,22 +174,8 @@ function keyPress(value) {
                     // Store new operator.
                     calculator.operator = value;
                     // Update display.
-                    // // If neither operands nor operator is stored:
-                    if (calculator.operandOne == "" && calculator.operator == "") {
-                        updateDisplay(calculator.accumulator);
-                    }
-                     // If operandOne and operator are stored:
-                    if (calculator.operandOne != "" && calculator.operator != "") {
-                        if (calculator.accumulator == "") {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator);
-                        } else {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                        }
-                    }
-                    // If operandOne is stored, but operator isn't stored (after calculation):
-                    if (calculator.operandOne != "" && calculator.operator == "") {
-                        updateDisplay(calculator.operandOne);
-                    }
+                    calculator.display = createDisplay();
+                    updateDisplay(calculator.display);
                 }
 
                 // Is accumulator empty? --> No
@@ -277,22 +197,8 @@ function keyPress(value) {
                     // Reset accumulator.
                     calculator.accumulator = "";
                     // Update display.
-                    // If neither operands nor operator is stored:
-                    if (calculator.operandOne == "" && calculator.operator == "") {
-                        updateDisplay(calculator.accumulator);
-                    }
-                     // If operandOne and operator are stored:
-                    if (calculator.operandOne != "" && calculator.operator != "") {
-                        if (calculator.accumulator == "") {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator);
-                        } else {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                        }
-                    }
-                    // If operandOne is stored, but operator isn't stored (after calculation):
-                    if (calculator.operandOne != "" && calculator.operator == "") {
-                        updateDisplay(calculator.operandOne);
-                    }
+                    calculator.display = createDisplay();
+                    updateDisplay(calculator.display);
                 }
             }
         }
@@ -325,22 +231,8 @@ function keyPress(value) {
                     // Reset accumulator.
                     calculator.accumulator = "";
                     // Update display.
-                    // If neither operands nor operator is stored:
-                    if (calculator.operandOne == "" && calculator.operator == "") {
-                        updateDisplay(calculator.accumulator);
-                    }
-                     // If operandOne and operator are stored:
-                    if (calculator.operandOne != "" && calculator.operator != "") {
-                        if (calculator.accumulator == "") {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator);
-                        } else {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                        }
-                    }
-                    // If operandOne is stored, but operator isn't stored (after calculation):
-                    if (calculator.operandOne != "" && calculator.operator == "") {
-                        updateDisplay(calculator.operandOne);
-                    }
+                    calculator.display = createDisplay();
+                    updateDisplay(calculator.display);
                 }
 
                 // Is accumulator empty? --> No
@@ -355,22 +247,8 @@ function keyPress(value) {
                     // Reset accumulator.
                     calculator.accumulator = "";
                     // Update display.
-                    // If neither operands nor operator is stored:
-                    if (calculator.operandOne == "" && calculator.operator == "") {
-                        updateDisplay(calculator.accumulator);
-                    }
-                     // If operandOne and operator are stored:
-                    if (calculator.operandOne != "" && calculator.operator != "") {
-                        if (calculator.accumulator == "") {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator);
-                        } else {
-                            updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                        }
-                    }
-                    // If operandOne is stored, but operator isn't stored (after calculation):
-                    if (calculator.operandOne != "" && calculator.operator == "") {
-                        updateDisplay(calculator.operandOne);
-                    }
+                    calculator.display = createDisplay();
+                    updateDisplay(calculator.display);
                 }
             }
         }
@@ -407,22 +285,8 @@ function keyPress(value) {
             calculator.accumulator = signSwitch(calculator.accumulator).toString();
         }
         // Update display.
-        // If neither operands nor operator is stored:
-        if (calculator.operandOne == "" && calculator.operator == "") {
-            updateDisplay(calculator.accumulator);
-        }
-         // If operandOne and operator are stored:
-        if (calculator.operandOne != "" && calculator.operator != "") {
-            if (calculator.accumulator == "") {
-                updateDisplay(calculator.operandOne + " " + calculator.operator);
-            } else {
-                updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-            }
-        }
-        // If operandOne is stored, but operator isn't stored (after calculation):
-        if (calculator.operandOne != "" && calculator.operator == "") {
-            updateDisplay(calculator.operandOne);
-        }
+        calculator.display = createDisplay();
+        updateDisplay(calculator.display);
     } // End of if (sign-switch).
 
     // If key pressed is percentage:
@@ -436,64 +300,22 @@ function keyPress(value) {
             // Reset accumulator.
             calculator.accumulator = "";
             // Update display.
-            // If neither operands nor operator is stored:
-            if (calculator.operandOne == "" && calculator.operator == "") {
-                updateDisplay(calculator.accumulator);
-            }
-             // If operandOne and operator are stored:
-            if (calculator.operandOne != "" && calculator.operator != "") {
-                if (calculator.accumulator == "") {
-                    updateDisplay(calculator.operandOne + " " + calculator.operator);
-                } else {
-                    updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                }
-            }
-            // If operandOne is stored, but operator isn't stored (after calculation):
-            if (calculator.operandOne != "" && calculator.operator == "") {
-                updateDisplay(calculator.operandOne);
-            }
+            calculator.display = createDisplay();
+            updateDisplay(calculator.display);
             // Case: One number in display, calculation has occurred.
         } else if (calculator.operandOne != "" && calculator.operator == "") {
             // Calculate the percentage and store in operandOne.
             calculator.operandOne = percentage(calculator.operandOne).toString();
             // Update display.
-            // If neither operands nor operator is stored:
-            if (calculator.operandOne == "" && calculator.operator == "") {
-                updateDisplay(calculator.accumulator);
-            }
-             // If operandOne and operator are stored:
-            if (calculator.operandOne != "" && calculator.operator != "" ) {
-                if (calculator.accumulator == "") {
-                    updateDisplay(calculator.operandOne + " " + calculator.operator);
-                } else {
-                    updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                }
-            }
-            // If operandOne is stored, but operator isn't stored (after calculation):
-            if (calculator.operandOne != "" && calculator.operator == "") {
-                updateDisplay(calculator.operandOne);
-            }
+            calculator.display = createDisplay();
+            updateDisplay(calculator.display);
             // Case: Two numbers in display, no calculations have occured yet.
         } else if (calculator.accumulator != "0" && calculator.operator != "") {
             // Calculate percentage and store in accumulator.
             calculator.accumulator = percentage(calculator.accumulator).toString();
             // Update display.
-            // If neither operands nor operator is stored:
-            if (calculator.operandOne == "" && calculator.operator == "") {
-                updateDisplay(calculator.accumulator);
-            }
-             // If operandOne and operator are stored:
-            if (calculator.operandOne != "" && calculator.operator != "") {
-                if (calculator.accumulator == "") {
-                    updateDisplay(calculator.operandOne + " " + calculator.operator);
-                } else {
-                    updateDisplay(calculator.operandOne + " " + calculator.operator + " " + calculator.accumulator);
-                }
-            }
-            // If operandOne is stored, but operator isn't stored (after calculation):
-            if (calculator.operandOne != "" && calculator.operator == "") {
-                updateDisplay(calculator.operandOne);
-            }
+            calculator.display = createDisplay();
+            updateDisplay(calculator.display);
         }
 
     } // End of if (percentage).
