@@ -1,42 +1,114 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Form Practice</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"><link rel="stylesheet" href="C:\Users\Dalton\Documents\Internship\Form\styles.css">
-    </head>
 
-    <body>
+<head>
+    <title>Form Practice</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        // Client Code
+        function submit() {
+            var formValues = {}
+            formValues.firstName = document.getElementById("first-name").value;
+            formValues.lastName = document.getElementById("last-name").value;
+            formValues.gender = document.querySelector("[name=genderRadios]:checked").value;
+            
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    // Typical action to be performed when the document is ready:
+                    console.log(xhttp.responseText);
+                }
+            };
+            xhttp.open("POST", "/customer", true);
+            xhttp.setRequestHeader("Content-Type", "application/json")
+            xhttp.send(JSON.stringify(formValues));
+        }
 
-        <div class="form-group">
-            <label for="first-name">First Name</label>
-            <input type="text" class="form-control" id="first-name" placeholder="First">
+        function getDocument() {
+           
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    //console.log(xhttp.responseText);
+                    // Need to convert the responseText to JSON
+                    var object = JSON.parse(xhttp.responseText);
+                    // Set the form input to the values stored in the object.
+                    document.getElementById("first-name").value = object.firstName;
+                    document.getElementById("last-name").value = object.lastName;
+                    document.querySelector("[name=genderRadios][value=" + object.gender + "]").checked = true;
+
+                }
+            };
+            xhttp.open("GET", "/customer", true);
+            xhttp.setRequestHeader("Content-Type", "application/json")
+            xhttp.send();
+        }
+
+        function submitJQuery() {
+            var formValues = {}
+            formValues.firstName = document.getElementById("first-name").value;
+            formValues.lastName = document.getElementById("last-name").value;
+            formValues.gender = document.querySelector("[name=genderRadios]:checked").value;
+
+            var opt = {};
+            opt.dataType = "json";
+            opt.type = "POST";
+            opt.data = formValues;
+            opt.success = function(data) {
+                console.log(data);
+            };
+            opt.contentType = "text/plain";
+            $.ajax("/customer", opt);
+            
+
+        } 
+        
+        function getJQuery() {
+            var opt = {};
+            opt.contentType = "application/json";
+            opt.method = "GET";
+            opt.success = function(data) {
+                console.log(data);
+                document.getElementById("first-name").value = data.firstName;
+                document.getElementById("last-name").value = data.lastName;
+                document.querySelector("[name=genderRadios][value=" + data.gender + "]").checked = true;
+            };
+            $.ajax("/customer", opt);
+        }
+    </script>
+</head>
+
+<body onload="getJQuery()">
+
+    <div class="form-group">
+        <label for="first-name">First Name</label>
+        <input type="text" class="form-control" id="first-name" placeholder="First">
+    </div>
+    <div class="form-group">
+        <label for="last-name">Last Name</label>
+        <input type="text" class="form-control" id="last-name" placeholder="Last">
+    </div>
+    <fieldset class="form-group">
+        <legend>Gender</legend>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="genderRadios" id="gender-male" value="Male"> Male
+            </label>
         </div>
-        <div class="form-group">
-            <label for="last-name">Last Name</label>
-            <input type="text" class="form-control" id="last-name" placeholder="Last">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="genderRadios" id="gender-female" value="Female"> Female
+            </label>
         </div>
-        <fieldset class="form-group">
-            <legend>Gender</legend>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="genderRadios" id="gender-male" value="male">
-                    Male
-                </label>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="genderRadios" id="gender-female" value="femal">
-                    Female
-                </label>
-            </div>
-            <div class="form-check">
-                <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="genderRadios" id="gender-other" value="other">
-                    Other
-                </label>
-            </div>
-        </fieldset>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </body>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="radio" class="form-check-input" name="genderRadios" id="gender-other" value="Other"> Other
+            </label>
+        </div>
+    </fieldset>
+    <button type="button" class="btn btn-primary" onclick="submit()">Submit</button>
+</body>
 
 </html>
